@@ -25,7 +25,7 @@ app.use(bodyParser.json());
 
 //routers
 //app.use('/applications', require('./routers/applications'));
-app.use('/products', require('./routers/products'));
+app.use('/api/products', require('./routers/products'));
 //app.use('/notifications', require('./routers/notifications'));
 
 //static file
