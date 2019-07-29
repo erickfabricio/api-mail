@@ -8,14 +8,10 @@ const schema = new mongoose.Schema({
     mail : String,
     password : String,
     description : String,
-    date : String,
-    state : String    
+    date : {type: Date, default: Date.now},
+    state : String
 },{
     versionKey: false
 });
-
-schema.methods.toString = function () {    
-    return this.mail;
-};
 
 module.exports = mongoose.model('products', schema);

@@ -11,7 +11,7 @@ const app = express();
 
 //mongodb
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost/db_mail', {
+mongoose.connect('mongodb://localhost/mail', {
     useNewUrlParser: true
 }).then(db => console.log('server db is connected'))
   .catch(err => console.log(err));
@@ -26,7 +26,7 @@ app.use(bodyParser.json());
 //routers
 //app.use('/applications', require('./routers/applications'));
 app.use('/api/products', require('./routers/products'));
-//app.use('/notifications', require('./routers/notifications'));
+app.use('/api/notifications', require('./routers/notifications'));
 
 //static file
 

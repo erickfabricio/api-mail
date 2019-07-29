@@ -5,11 +5,11 @@ const {
     save,
     update,
     remove
-} = require('../controllers/products');
+} = require('../controllers/notifications');
 
 router.get('/', find);
 router.post('/', save);
-router.put('/:productId', update);
-router.delete('/:productId', remove);
+router.put('/:notificationId', update);
+router.delete('/:notificationId', remove);
 
 module.exports = router;
