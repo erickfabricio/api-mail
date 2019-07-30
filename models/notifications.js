@@ -6,8 +6,7 @@ const schema = new mongoose.Schema({
     creationDate: {type: Date, default: Date.now},
 	sentDate: {type: Date, default: null},
 	state: String,
-	message: {
-		from: String,
+	message: {		
 		to: String,
 		cc: String,
 		subject: String,		
