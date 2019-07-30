@@ -3,7 +3,8 @@ const mongoose = require('mongoose');
 const schema = new mongoose.Schema({
 
     product: String,
-    date: {type: Date, default: Date.now},
+    creationDate: {type: Date, default: Date.now},
+	sentDate: {type: Date, default: null},
 	state: String,
 	message: {
 		from: String,
