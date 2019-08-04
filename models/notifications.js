@@ -9,9 +9,12 @@ const schema = new mongoose.Schema({
 	message: {		
 		to: String,
 		cc: String,
+		cco: String,
 		subject: String,		
 		html: String,
-		attachments: [String]
+		attachments: [{
+			path: String
+		}]
     }
     
 },{
