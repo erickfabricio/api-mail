@@ -6,6 +6,8 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const express = require('express');
 const mongoose = require('mongoose');
+var cors = require('cors');
+
 
 const app = express();
 
@@ -21,6 +23,7 @@ app.set('port', process.env.PORT || 3000);
 
 //middleware
 app.use(morgan('dev'));
+app.use(cors());
 app.use(bodyParser.json());
 
 //routers
