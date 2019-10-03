@@ -7,6 +7,12 @@ module.exports = {
         res.status(200).json(notifications);        
     },
 
+    findById: async (req, res, next) => {
+        const { notificationId } = req.params;
+        const notifications = await Notification.findById(notificationId);
+        res.status(200).json(notifications);
+    },
+
     save: async (req, res, next) => {
         const newNotification = new Notification(req.body);
         const notification = await newNotification.save();

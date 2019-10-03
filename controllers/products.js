@@ -7,6 +7,12 @@ module.exports = {
         res.status(200).json(products);        
     },
 
+    findById: async (req, res, next) => {
+        const { productId } = req.params;
+        const product = await Product.findById(productId);
+        res.status(200).json(product);
+    },
+
     save: async (req, res, next) => {
         const newProduct = new Product(req.body);
         const product = await newProduct.save();
