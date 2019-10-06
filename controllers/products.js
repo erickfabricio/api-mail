@@ -21,9 +21,10 @@ module.exports = {
     
     update: async (req, res, next) => {
         const { productId } = req.params;
-        const newProduct = req.body;
-        const oldProduct = await Product.findByIdAndUpdate(productId, newProduct, {useFindAndModify: false});
-        res.status(200).json({success: true});
+        const updateProduct = req.body;        
+        const oldProduct = await Product.findByIdAndUpdate(productId, updateProduct, {useFindAndModify: false});
+        const newProduct = await Product.findById(oldProduct.id);
+        res.status(200).json(newProduct);
     },
 
     remove: async (req, res, next) => {
