@@ -29,8 +29,8 @@ module.exports = {
 
     remove: async (req, res, next) => {
         const { productId } = req.params;
-        await Product.findByIdAndRemove(productId);
-        res.status(200).json({success: true});
+        const product = await Product.findByIdAndRemove(productId);
+        res.status(200).json(product);
     }
     
 }
