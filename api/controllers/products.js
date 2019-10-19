@@ -2,7 +2,7 @@ const Product = require('../models/products');
 
 module.exports = {
         
-    find: async (req, res, next) => {               
+    find: async (req, res, next) => {
         const products = await Product.find(req.body.query, req.body.parms);
         res.status(200).json(products);        
     },

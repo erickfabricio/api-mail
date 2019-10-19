@@ -1,41 +1,65 @@
 /**
- * Despliegue del servidor web con la conexión mongodb.
+ * Autor...: Erick Fabricio Martínez Castellanos
+ * Web.....: https://erickfabricio.com
+ * Email...: mail@erickfabricio.com
+ * GitHub..: https://github.com/erickfabricio
  */
 
-const bodyParser = require('body-parser');
-const morgan = require('morgan');
 const express = require('express');
 const mongoose = require('mongoose');
-var cors = require('cors');
+const jwt = require('jsonwebtoken');
+const morgan = require('morgan');
+const cors = require('cors');
+const bodyParser = require('body-parser');
+const config = require('./config');
 
-
+//Server
 const app = express();
 
-//mongodb
+//MongoDB
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost/mail', {
+mongoose.connect(config.db, {
     useNewUrlParser: true
 }).then(db => console.log('server db is connected'))
   .catch(err => console.log(err));
 
-//settings
-app.set('port', process.env.PORT || 3000);
-
-//middleware
+//Middleware
 app.use(morgan('dev'));
 app.use(cors());
 app.use(bodyParser.json());
 
-//routers
-//app.use('/applications', require('./routers/applications'));
-app.use('/api/products', require('./routers/products'));
-app.use('/api/notifications', require('./routers/notifications'));
+//Routers
+app.use('/api/products', validateToken, require('./api/routers/products'));
+app.use('/api/notifications', validateToken, require('./api/routers/notifications'));
 
-//static file
+//Token
+function validateToken(req, res, next) {
 
-//error handlers
+  var token = req.headers['authorization']
+  
+  if (!token) {
+    return res.status(401).send({
+      ok: false,
+      message: 'Authentication failed'
+    });
+  }
 
-//start server
-app.listen(app.get('port'), () => {
-    console.log("server web on port:", app.get('port'));
+  token = token.replace('Bearer ', '')
+
+  jwt.verify(token, config.key, function(err, data) {
+    if (err) {
+      return res.status(401).send({
+        ok: false,
+        message: 'Token invalid'
+      });
+    } else {
+      req.token = data       
+      next()
+    }
+  });
+}
+
+//Start server
+app.listen(config.port, () => {
+    console.log("server web on port:", config.port);
 });
