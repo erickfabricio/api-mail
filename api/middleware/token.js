@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const config = require('../../config');
 
 options = {
-    expiresIn: 60 * 60 * 24 //24h
+    //expiresIn: 60 * 60 * 24 //24h
 };
 
 //El payload es un json
@@ -11,9 +11,9 @@ function generateToken(payload) {
 }
 
 aplication = {
-    id: "app01",
-    name: "Send-Mail",
-    state: "A"    
+    id: "APP",
+    name: "Test-Dev",
+    state: "A"
 }
 
 console.log(generateToken(aplication));
