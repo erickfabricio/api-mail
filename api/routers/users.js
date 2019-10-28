@@ -5,7 +5,8 @@ const {
     findById,
     save,
     update,
-    remove
+    remove,
+    login
 } = require('../controllers/users');
 
 router.get('/', find);
@@ -13,5 +14,7 @@ router.get('/:userId', findById);
 router.post('/', save);
 router.put('/:userId', update);
 router.delete('/:userId', remove);
+
+router.post('/login', login);
 
 module.exports = router;
