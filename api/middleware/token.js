@@ -11,7 +11,7 @@ function generateToken(payload) {
 }
 
 aplication = {
-    id: "APP",
+    id: "Postman",
     name: "Test-Dev",
     state: "A"
 }

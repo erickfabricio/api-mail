@@ -29,6 +29,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 //Routers
+app.use('/api/users', require('./api/routers/users'));
 app.use('/api/products', validateToken, require('./api/routers/products'));
 app.use('/api/notifications', validateToken, require('./api/routers/notifications'));
 
