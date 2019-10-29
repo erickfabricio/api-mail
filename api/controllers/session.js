@@ -19,7 +19,7 @@ module.exports = {
         }
     },
 
-    login: async (req, res, next) => {
+    login: async (req, res, next) => {        
         console.log(req.body);
         //Search user        
         const user = await User.findOne({ mail: req.body.mail });

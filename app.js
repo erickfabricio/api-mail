@@ -12,7 +12,6 @@ const morgan = require('morgan');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const config = require('./config');
-const token = require('./api/middleware/token');
 
 //Server
 const app = express();
@@ -23,6 +22,7 @@ mongoose.connect(config.db, {
     useNewUrlParser: true
 }).then(db => console.log('server db is connected'))
   .catch(err => console.log(err));
+  
 
 //Middleware
 app.use(morgan('dev'));
@@ -31,11 +31,35 @@ app.use(bodyParser.json());
 
 //Routers
 app.use('/api/session', require('./api/routers/session'));
-app.use('/api/users', token.validate, require('./api/routers/users'));
-app.use('/api/products', token.validate, require('./api/routers/products'));
-app.use('/api/notifications', token.validate, require('./api/routers/notifications'));
+app.use('/api/users', validateToken, require('./api/routers/users'));
+app.use('/api/products', validateToken, require('./api/routers/products'));
+app.use('/api/notifications', validateToken, require('./api/routers/notifications'));
 
 //Start server
 app.listen(config.port, () => {
     console.log("server web on port:", config.port);
 });
+
+//******** Util ********//
+
+//Validations
+function validateToken(req, res, next) {
+
+  var token = req.headers['authorization'];
+
+  if (!token) {
+      return res.status(401).send({ ok: false, message: 'Authentication failed' });
+  }
+
+  token = token.replace('Bearer ', '');
+
+  jwt.verify(token, config.key, function (err, data) {
+      if (err) {
+          return res.status(401).send({ ok: false, message: 'Token invalid' });
+      } else {
+          console.log("validateToken -> data:" + JSON.stringify(data));
+          //req.token = data
+          next();
+      }
+  });
+}
