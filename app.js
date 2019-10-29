@@ -12,6 +12,7 @@ const morgan = require('morgan');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const config = require('./config');
+const token = require('./api/middleware/token');
 
 //Server
 const app = express();
@@ -29,36 +30,11 @@ app.use(cors());
 app.use(bodyParser.json());
 
 //Routers
-app.use('/api/users', require('./api/routers/users'));
-app.use('/api/products', validateToken, require('./api/routers/products'));
-app.use('/api/notifications', validateToken, require('./api/routers/notifications'));
+app.use('/api/session', token.validate, require('./api/routers/session'));
 
-//Token
-function validateToken(req, res, next) {
-
-  var token = req.headers['authorization']
-  
-  if (!token) {
-    return res.status(401).send({
-      ok: false,
-      message: 'Authentication failed'
-    });
-  }
-
-  token = token.replace('Bearer ', '')
-
-  jwt.verify(token, config.key, function(err, data) {
-    if (err) {
-      return res.status(401).send({
-        ok: false,
-        message: 'Token invalid'
-      });
-    } else {
-      req.token = data       
-      next()
-    }
-  });
-}
+app.use('/api/users', token.validate, require('./api/routers/users'));
+app.use('/api/products', token.validate, require('./api/routers/products'));
+app.use('/api/notifications', token.validate, require('./api/routers/notifications'));
 
 //Start server
 app.listen(config.port, () => {
