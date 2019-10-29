@@ -13,13 +13,14 @@ module.exports = {
             req.body.password = bcrypt.hashSync(req.body.password, saltRounds);
             const newUser = new User(req.body);
             const user = await newUser.save();
-            res.status(200).json({ error: false, menssage: "User registered successfully", user: user });
+            res.status(200).json({ ok: true, menssage: "User registered successfully", user: user });
         }else{
-            res.status(401).json({ error: true, menssage: "Email is already registered" });
+            res.status(401).json({ ok: false, menssage: "Email is already registered" });
         }
     },
 
     login: async (req, res, next) => {
+        console.log(req.body);
         //Search user        
         const user = await User.findOne({ mail: req.body.mail });
         if (user) {
@@ -34,13 +35,13 @@ module.exports = {
                         config.key
                     );
                     //console.log(token);
-                    res.status(200).json({ error: false, menssage: "Correct login", token: token, user: user });
+                    res.status(200).json({ ok: true, menssage: "Correct login", token: token, user: user });
                 } else {
-                    res.status(200).json({ error: true, menssage: "Incorrect password" });
+                    res.status(200).json({ ok: false, menssage: "Incorrect password" });
                 }
             })
         } else {
-            res.status(200).json({ error: true, menssage: "Email not registered" });
+            res.status(200).json({ ok: false, menssage: "Email not registered" });
         }
     }
 
