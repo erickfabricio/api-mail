@@ -10,7 +10,7 @@ function validateHash(password, hash) {
 }
 
 module.exports = { generateHash, validateHash };
-/* TEST
+/* TEST 
 password = "abc123";
 hash = generateHash(password);
 rest = validateHash(password, hash);
