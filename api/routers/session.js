@@ -8,6 +8,6 @@ const {
 
 router.post('/signup', signUp);
 router.post('/login', login);
-router.post('/validate', validate);
+router.get('/validate', validate);
 
 module.exports = router;
