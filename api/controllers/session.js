@@ -14,12 +14,12 @@ module.exports = {
             const newUser = new User(req.body);
             const user = await newUser.save();
             res.status(200).json({ ok: true, menssage: "User registered successfully", user: user });
-        }else{
+        } else {
             res.status(401).json({ ok: false, menssage: "Email is already registered" });
         }
     },
 
-    login: async (req, res, next) => {        
+    login: async (req, res, next) => {
         console.log(req.body);
         //Search user        
         const user = await User.findOne({ mail: req.body.mail });
@@ -43,6 +43,24 @@ module.exports = {
         } else {
             res.status(200).json({ ok: false, menssage: "Email not registered" });
         }
+    },
+
+    validate: async (req, res, next) => {
+        var token = req.headers['authorization'];
+
+        if (!token) {
+            return res.status(401).send({ ok: false, message: 'Authentication failed' });
+        }
+
+        token = token.replace('Bearer ', '');
+
+        jwt.verify(token, config.key, function (err, info) {
+            if (err) {
+                return res.status(401).send({ ok: false, message: 'Token invalid, ' + err.name + ' ' + err.message + '.' });
+            } else {                
+                res.status(200).json({ ok: true, menssage: "Correct token", info: info });                
+            }
+        });
     }
 
 }

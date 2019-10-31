@@ -28,7 +28,7 @@ payload = { id: '1234', user: "erick" };
 seconds = 60;
 
 token = generate(payload, seconds);
-resp = validate(token);
+resp = validate(token + "a");
 
 console.log("\npayload:" + payload + "\ntoken:" + token + "\nresp:" + JSON.stringify(resp));
 
