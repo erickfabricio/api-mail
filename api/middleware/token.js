@@ -25,7 +25,7 @@ module.exports = { generate, validate };
 
 /*TEST*/
 payload = { id: '1234', user: "erick" };
-seconds = 60;
+seconds = 2592000;
 
 token = generate(payload, seconds);
 resp = validate(token + "a");
