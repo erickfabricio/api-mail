@@ -32,6 +32,7 @@ app.use(bodyParser.json());
 //Routers
 app.use('/api/session', require('./api/routers/session'));
 app.use('/api/users', validateToken, require('./api/routers/users'));
+app.use('/api/applications', validateToken, require('./api/routers/applications'));
 app.use('/api/products', validateToken, require('./api/routers/products'));
 app.use('/api/notifications', validateToken, require('./api/routers/notifications'));
 
