@@ -1,4 +1,4 @@
-# api-mail
+# API Mail - Envió automático de correos electrónicos
 
 API REST utilizando MondoDB y JWT
 

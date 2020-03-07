@@ -1,2 +1,4 @@
 node_modules
-db.js
+dist
+docs
+.DS_Store
