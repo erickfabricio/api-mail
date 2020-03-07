@@ -1,0 +1,73 @@
+const User = require('../models/adm-users');
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
+
+module.exports = {
+
+    find: async (req, res, next) => {
+        const users = await User.find(req.body.query, req.body.parms);
+        res.status(200).json(users);
+    },
+
+    findById: async (req, res, next) => {
+        const { userId } = req.params;
+        const user = await User.findById(userId);
+        res.status(200).json(user);
+    },
+
+    save: async (req, res, next) => {
+        const user = await User.findOne({ mail: req.body.mail });
+        if (!user) {
+            req.body.hash = bcrypt.hashSync(req.body.password, saltRounds);
+            const newUser = new User(req.body);
+            const user = await newUser.save();
+            res.status(200).json({ ok: true, menssage: "Usuario regristrado correctamente", user: user });
+        } else {
+            res.status(200).json({ ok: false, menssage: "El correo electrónico ya ha sido registrado" });
+        }
+    },
+
+    update: async (req, res, next) => {
+
+        const { userId } = req.params;
+        const updateUser = req.body;
+
+        result = true; //Respuesta de carga
+
+        const currentUser = await User.findById(userId);
+
+        //Mail validation
+        if (req.body.mail && currentUser.mail != req.body.mail) {
+            console.log("Mail validation");
+            if (currentUser.mail != req.body.mail) {
+                const user = await User.findOne({ mail: req.body.mail });
+                if (user) {
+                    result = false;
+                    res.status(200).json({ ok: false, menssage: "El correo electrónico ya ha sido registrado" });
+                }
+            }
+        }
+
+        //Password validation
+        if (req.body.password && currentUser.password != req.body.password) {
+            console.log("Password validation");
+            req.body.hash = bcrypt.hashSync(req.body.password, saltRounds);
+        }
+
+
+
+        if (result) {
+            const oldUser = await User.findByIdAndUpdate(userId, updateUser, { useFindAndModify: false });
+            const newUser = await User.findById(oldUser.id);
+            res.status(200).json({ ok: true, menssage: "User updated successfully", user: newUser });
+        }
+
+    },
+
+    remove: async (req, res, next) => {
+        const { userId } = req.params;
+        const user = await User.findByIdAndRemove(userId);
+        res.status(200).json(user);
+    }
+
+}
