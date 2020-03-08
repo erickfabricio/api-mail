@@ -81,7 +81,7 @@ function validateToken(req, res, next) {
         if (err) {
             return res.status(401).send({ ok: false, message: 'Token invalid, ' + err.name + ' ' + err.message + '.' });
         } else {
-            console.log("validateToken -> info:" + JSON.stringify(info));
+            //console.log("validateToken -> info:" + JSON.stringify(info));
             //res.status(200).json({ ok: true, menssage: "Correct token", info: info });
             //req.token = info
             next();
