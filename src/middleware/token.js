@@ -23,15 +23,14 @@ function validate(token) {
 
 module.exports = { generate, validate };
 
-/*TEST*/
-payload = { info: "DEV-Postman" };
-seconds = 2592000; //30 dias
-
+/*Generación de Token*/
+payload = { info: "SEND-MAIL" };
+seconds = 525600000;//365 dias // 2592000; //30 dias
 token = generate(payload, seconds);
-
 resp = validate(token);
-console.log("\npayload:" + JSON.stringify(payload) + "\n\ntoken:" + token + "\n\nresp:" + JSON.stringify(resp) + "\n");
 
-//console.log(validate('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NzI1NDMwODYsImRhdGEiOiJlcmljayIsImlhdCI6MTU3MjU0MzAyNn0.Eh9Y9fb5UcDluHFlfi1_soYgMDOvLGlKtknG1KWiMKk'));
-
+console.log("\npayload: " + JSON.stringify(payload) +
+    "\n\nseconds: " + seconds,
+    "\n\ntoken: " + token +
+    "\n\nresp: " + JSON.stringify(resp) + "\n");
 
