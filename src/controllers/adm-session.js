@@ -3,7 +3,7 @@ const Role = require('../models/adm-roles');
 const Token = require('../models/adm-tokens');
 const config = require('../../config');
 const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const saltRounds = 10;
 
 //Seconds
